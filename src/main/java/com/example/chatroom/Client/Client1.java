@@ -14,9 +14,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Client extends Application {
+public class Client1 extends Application {
     private TextArea chatArea = new TextArea();
     private TextField messageInput = new TextField();
+    private TextField usernameInput = new TextField();
     private PrintWriter out;
 
     public static void main(String[] args) {
@@ -31,17 +32,16 @@ public class Client extends Application {
         Button sendButton = new Button("Send");
         sendButton.setOnAction(e -> sendMessage());
 
-        // Set up the layout.
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(chatArea, messageInput, sendButton);
+        vbox.getChildren().addAll(chatArea, usernameInput, messageInput, sendButton);
         Scene scene = new Scene(vbox, 400, 300);
         primaryStage.setScene(scene);
 
-        // Establish a connection to the server (you'll need the server's IP address and port).
+
         Socket socket = new Socket("localhost", 1234);
         out = new PrintWriter(socket.getOutputStream(), true);
 
-        // Start a thread to listen for incoming messages from the server.
+
         new Thread(() -> {
             try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                 String message;
@@ -57,10 +57,12 @@ public class Client extends Application {
     }
 
     private void sendMessage() {
+        String username = usernameInput.getText();
         String message = messageInput.getText();
-        if (!message.isEmpty()) {
-            out.println(message);
+        if (!username.isEmpty() && !message.isEmpty()) {
+            out.println(username + ": " + message);
             messageInput.clear();
         }
     }
 }
+

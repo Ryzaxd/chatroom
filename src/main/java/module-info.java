@@ -5,6 +5,6 @@ module com.example.chatroom {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
 
-    opens com.example.chatroom to javafx.fxml;
     exports com.example.chatroom.Client;
+    exports com.example.chatroom.Server;
 }

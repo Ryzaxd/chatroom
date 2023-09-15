@@ -37,6 +37,7 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            server.removeClient(this);
             try {
                 clientSocket.close();
             } catch (IOException e) {

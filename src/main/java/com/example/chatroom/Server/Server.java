@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
-
     private static final int PORT = 1234;
     private List<ClientHandler> clients = new ArrayList<>();
 
@@ -19,7 +18,7 @@ public class Server {
 
     public void startServer() {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            System.out.println("Chatroom.Server is running...");
+            System.out.println("Chat Server is running...");
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
@@ -35,6 +34,10 @@ public class Server {
         for (ClientHandler client : clients) {
             client.sendMessage(message);
         }
+    }
+
+    public void removeClient(ClientHandler clientHandler) {
+        clients.remove(clientHandler);
     }
 
 }
