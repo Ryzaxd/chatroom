@@ -24,6 +24,18 @@ public class Client2 extends Application {
         launch(args);
     }
 
+    /* @Override
+    public void start(Stage primaryStage) throws Exception {
+        VBox layout = new VBox(10);
+        Scene scene = new Scene(layout, 920, 620);
+        primaryStage.setTitle("Chatroom");
+        scene.setFill(Color.ROYALBLUE);
+        primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image("/artochat.png"));
+        primaryStage.show(); 
+    } 
+    Scene opsætning layout v1*/
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Chatroom");
