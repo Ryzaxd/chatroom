@@ -1,16 +1,15 @@
 package com.example.chatroom.Server;
 
 import com.example.chatroom.Client.ClientHandler;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server {
     private static final int PORT = 8080;
-    private List<ClientHandler> clients = new ArrayList<>();
+    private final List<ClientHandler> clients = new CopyOnWriteArrayList<>();
 
     public static void main(String[] args) {
         new Server().startServer();
@@ -23,10 +22,10 @@ public class Server {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected: " + clientSocket.getInetAddress().getHostAddress());
 
-                // Create a new client handler for the connected client
+
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
 
-                // Check for username uniqueness
+
                 if (!isUsernameUnique(clientHandler.getUsername())) {
                     System.out.println("Username is not unique. Client disconnected.");
                     clientHandler.sendMessage("ERROR: Username is not unique. Please choose a different username.");
@@ -42,7 +41,7 @@ public class Server {
         }
     }
 
-    // Check if a username is unique
+
     public boolean isUsernameUnique(String username) {
         for (ClientHandler client : clients) {
             if (client.getUsername().equals(username)) {
@@ -57,6 +56,15 @@ public class Server {
         for (ClientHandler client : clients) {
             client.sendMessage(message);
         }
+    }
+
+    public boolean isUsernameTaken(String username) {
+        for (ClientHandler client : clients) {
+            if (client.getUsername() != null && client.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void removeClient(ClientHandler clientHandler) {

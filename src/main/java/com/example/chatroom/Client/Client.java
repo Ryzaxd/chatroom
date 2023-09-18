@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public class Client extends Application {
     private TextArea chatArea = new TextArea();
     private TextField messageInput = new TextField();
@@ -21,6 +22,7 @@ public class Client extends Application {
     private PrintWriter out;
     private Stage primaryStage;
     private boolean usernameEntered = false;
+    private Socket socket;
 
     public static void main(String[] args) {
         launch(args);
@@ -30,7 +32,6 @@ public class Client extends Application {
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("ArtoChat");
-
 
         GridPane usernamePane = new GridPane();
         usernamePane.setHgap(10);
@@ -81,11 +82,13 @@ public class Client extends Application {
             });
 
             try {
-                Socket socket = new Socket("localhost", 8080);
+
+                socket = new Socket("localhost", 8080);
                 out = new PrintWriter(socket.getOutputStream(), true);
 
 
-                out.println(username + " has joined the chat");
+                out.println("/join " + username);
+
 
                 new Thread(() -> {
                     try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
@@ -111,10 +114,20 @@ public class Client extends Application {
             if (!message.isEmpty()) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
                 String timestamp = dateFormat.format(new Date());
+
+
                 out.println("[" + timestamp + "] " + username + ": " + message);
                 messageInput.clear();
             }
         }
     }
-}
 
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+
+        if (socket != null && !socket.isClosed()) {
+            socket.close();
+        }
+    }
+}

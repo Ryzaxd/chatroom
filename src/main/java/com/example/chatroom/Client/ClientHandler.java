@@ -11,11 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ClientHandler implements Runnable {
-
     private Socket clientSocket;
     private Server server;
     private PrintWriter out;
     private String username;
+    private boolean userHasJoined = false;
 
     public ClientHandler(Socket socket, Server server) {
         this.clientSocket = socket;
@@ -30,6 +30,10 @@ public class ClientHandler implements Runnable {
         out.println(message);
     }
 
+    public class MessageTypes {
+        public static final String JOIN = "/join";
+    }
+
     @Override
     public void run() {
         try (
@@ -37,30 +41,83 @@ public class ClientHandler implements Runnable {
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)
         ) {
             this.out = out;
-            String message;
-            while ((message = in.readLine()) != null) {
-                if (message.startsWith("/join")) {
-
-                    server.broadcastMessage(message);
-                } else {
-
-                    server.broadcastMessage(getTimestampedMessage(message));
-                }
-            }
+            handleClientCommunication(in);
         } catch (IOException e) {
+
             e.printStackTrace();
         } finally {
-            server.removeClient(this);
-            server.broadcastMessage(username + " has left the chat.");
-            try {
-                clientSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            handleClientDisconnection();
+        }
+    }
+
+    private void handleClientCommunication(BufferedReader in) throws IOException {
+        String message;
+        while ((message = in.readLine()) != null) {
+            if (message.startsWith(MessageTypes.JOIN)) {
+                handleJoinMessage(message);
+
+                userHasJoined = true;
+            } else {
+                handleChatMessage(message);
             }
         }
     }
 
-    private String getTimestampedMessage(String message) {
+    public class MessageParser {
+        public static String extractUsername(String message) {
+
+            String[] parts = message.split(" ");
+            if (parts.length >= 2) {
+                return parts[1];
+            } else {
+                return "";
+            }
+        }
+    }
+
+    private void handleJoinMessage(String joinMessage) {
+
+        String requestedUsername = MessageParser.extractUsername(joinMessage);
+        if (isValidUsername(requestedUsername)) {
+            username = requestedUsername;
+            server.broadcastMessage(username + " has joined the chat.");
+        } else {
+            sendMessage("ERROR: Invalid username. Please choose a different one.");
+
+        }
+    }
+
+    private boolean isValidUsername(String username) {
+
+        return !username.isEmpty() && !server.isUsernameTaken(username);
+    }
+
+    private void handleChatMessage(String chatMessage) {
+        if (userHasJoined) {
+            server.broadcastMessage(getTimestampedMessage(chatMessage));
+        } else {
+            sendMessage("ERROR: You must join the chat before sending messages.");
+        }
+    }
+
+    private boolean isValidChatMessage(String chatMessage) {
+
+        return !chatMessage.isEmpty();
+    }
+
+    private void handleClientDisconnection() {
+        server.removeClient(this);
+        if (username != null) {
+            server.broadcastMessage(username + " has left the chat.");
+        }
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getTimestampedMessage(String message) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         String timestamp = dateFormat.format(new Date());
         return "[" + timestamp + "] " + username + ": " + message;
