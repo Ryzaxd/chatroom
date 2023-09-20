@@ -88,7 +88,6 @@ public class ClientHandler implements Runnable {
     }
 
     private boolean isValidUsername(String username) {
-
         return !username.isEmpty() && !server.isUsernameTaken(username);
     }
 
@@ -101,7 +100,6 @@ public class ClientHandler implements Runnable {
     }
 
     private boolean isValidChatMessage(String chatMessage) {
-
         return !chatMessage.isEmpty();
     }
 
