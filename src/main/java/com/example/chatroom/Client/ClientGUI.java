@@ -34,6 +34,8 @@ public class ClientGUI extends Application {
         usernamePane.setHgap(10);
         usernamePane.setVgap(10);
         usernamePane.setPadding(new Insets(10));
+        usernamePane.setStyle("-fx-border-color: black");
+
 
         Label usernameLabel = new Label("Enter your username:");
         usernamePane.add(usernameLabel, 0, 0);
@@ -46,7 +48,7 @@ public class ClientGUI extends Application {
         Scene usernameScene = new Scene(usernamePane, 350, 100);
         usernamePane.setStyle("-fx-background-color: #27b920; -fx-padding: 10;");
 
-        primaryStage.getIcons().add(new Image("https://github.com/Ryzaxd/chatroom/blob/1af1797c8308fcf8999be9e90994dab8f5b6aed3/src/main/resources/com/example/chatroom/Pictures/artochat.png"));
+        primaryStage.getIcons().add(new Image("file:artochat.png"));
         primaryStage.setScene(usernameScene);
         primaryStage.show();
     }

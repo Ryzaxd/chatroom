@@ -1,6 +1,13 @@
 package com.example.chatroom.Client;
 
 import com.example.chatroom.Server.Server;
+
+import javafx.scene.SnapshotParameters;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -114,6 +121,13 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
         }
     }
+
+    public void copyChartToClipboard(ScatterChart<Double, Double> chart) {
+    WritableImage image = chart.snapshot(new SnapshotParameters(), null);
+    ClipboardContent cc = new ClipboardContent();
+    cc.putImage(image);
+    Clipboard.getSystemClipboard().setContent(cc);
+}
 
     public String getTimestampedMessage(String message) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
