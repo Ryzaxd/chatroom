@@ -1,7 +1,6 @@
 package com.example.chatroom.Client;
 
 import com.example.chatroom.Server.Server;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,28 +10,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ClientHandler implements Runnable {
-    private Socket clientSocket;
-    private Server server;
+    private final Socket clientSocket;
+    private final Server server;
     private PrintWriter out;
     private String username;
     private boolean userHasJoined = false;
-
-    public ClientHandler(Socket socket, Server server) {
-        this.clientSocket = socket;
-        this.server = server;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void sendMessage(String message) {
-        out.println(message);
-    }
-
-    public class MessageTypes {
-        public static final String JOIN = "/join";
-    }
 
     @Override
     public void run() {
@@ -50,6 +32,43 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    public ClientHandler(Socket socket, Server server) {
+        this.clientSocket = socket;
+        this.server = server;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    private boolean isValidUsername(String username) {
+        return !username.isEmpty() && !server.isUsernameTaken(username);
+    }
+
+    public void sendMessage(String message) {
+        out.println(message);
+    }
+
+    private boolean isValidChatMessage(String chatMessage) {
+        return !chatMessage.isEmpty();
+    }
+
+    public static class MessageTypes {
+        public static final String JOIN = "/join";
+    }
+
+    public static class MessageParser {
+        public static String extractUsername(String message) {
+
+            String[] parts = message.split(" ");
+            if (parts.length >= 2) {
+                return parts[1];
+            } else {
+                return "";
+            }
+        }
+    }
+
     private void handleClientCommunication(BufferedReader in) throws IOException {
         String message;
         while ((message = in.readLine()) != null) {
@@ -59,18 +78,6 @@ public class ClientHandler implements Runnable {
                 userHasJoined = true;
             } else {
                 handleChatMessage(message);
-            }
-        }
-    }
-
-    public class MessageParser {
-        public static String extractUsername(String message) {
-
-            String[] parts = message.split(" ");
-            if (parts.length >= 2) {
-                return parts[1];
-            } else {
-                return "";
             }
         }
     }
@@ -87,20 +94,13 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private boolean isValidUsername(String username) {
-        return !username.isEmpty() && !server.isUsernameTaken(username);
-    }
-
     private void handleChatMessage(String chatMessage) {
         if (userHasJoined) {
-            server.broadcastMessage(getTimestampedMessage(chatMessage));
+            String timestampedMessage = getTimestampedMessage(chatMessage);
+            server.broadcastMessage(timestampedMessage);
         } else {
             sendMessage("ERROR: You must join the chat before sending messages.");
         }
-    }
-
-    private boolean isValidChatMessage(String chatMessage) {
-        return !chatMessage.isEmpty();
     }
 
     private void handleClientDisconnection() {

@@ -41,7 +41,6 @@ public class Server {
         }
     }
 
-
     public boolean isUsernameUnique(String username) {
         for (ClientHandler client : clients) {
             if (client.getUsername().equals(username)) {
@@ -49,13 +48,6 @@ public class Server {
             }
         }
         return true;
-    }
-
-    public void broadcastMessage(String message) {
-        System.out.println("Broadcasting: " + message);
-        for (ClientHandler client : clients) {
-            client.sendMessage(message);
-        }
     }
 
     public boolean isUsernameTaken(String username) {
@@ -69,6 +61,13 @@ public class Server {
 
     public void removeClient(ClientHandler clientHandler) {
         clients.remove(clientHandler);
+    }
+
+    public void broadcastMessage(String message) {
+        System.out.println("Broadcasting: " + message);
+        for (ClientHandler client : clients) {
+            client.sendMessage(message);
+        }
     }
 }
 
