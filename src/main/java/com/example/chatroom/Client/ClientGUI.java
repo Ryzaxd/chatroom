@@ -5,11 +5,15 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.fxml.FXML;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -51,6 +55,8 @@ public class ClientGUI extends Application {
         primaryStage.getIcons().add(new Image("file:artochat.png"));
         primaryStage.setScene(usernameScene);
         primaryStage.show();
+
+
     }
 
     private void setUsername() {
@@ -122,7 +128,35 @@ public class ClientGUI extends Application {
         }
     }
 
+    
+
     public static void main(String[] args) {
         launch(args);
     }
+
+    
+    @FXML
+    private TextArea messageTextArea;
+
+    @FXML
+    private ImageView imageView;
+
+    @FXML
+    private void sendImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(
+            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            Image image = new Image(selectedFile.toURI().toString());
+            imageView.setImage(image);
+
+
+        }
+    }
+     
+
 }
