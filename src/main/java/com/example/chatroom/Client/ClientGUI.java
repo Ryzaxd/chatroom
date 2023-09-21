@@ -29,6 +29,7 @@ public class ClientGUI extends Application {
     private Stage primaryStage;
     private boolean usernameEntered = false;
     private Socket socket;
+    private ListView<String> userList = new ListView<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -74,12 +75,17 @@ public class ClientGUI extends Application {
 
             messageInput.setPrefHeight(30);
 
-            VBox chatContainer = new VBox(10, chatArea, messageInput);
+            HBox chatAndUserList = new HBox(10);
+            chatAndUserList.getChildren().addAll(chatArea, userList);
+
+            VBox chatContainer = new VBox(10, chatAndUserList, messageInput);
             chatContainer.setPadding(new Insets(10));
 
             chatContainer.setStyle("-fx-background-color: #27b920; -fx-padding: 10;");
 
-            Scene chatScene = new Scene(chatContainer, 920, 620);
+            userList.setStyle("-fx-background-color: white;");
+
+            Scene chatScene = new Scene(chatContainer, 550, 400);
             primaryStage.setScene(chatScene);
 
             messageInput.setOnKeyPressed(event -> {
