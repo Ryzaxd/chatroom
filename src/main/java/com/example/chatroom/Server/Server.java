@@ -4,6 +4,7 @@ import com.example.chatroom.Client.ClientHandler;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -22,9 +23,7 @@ public class Server {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected: " + clientSocket.getInetAddress().getHostAddress());
 
-
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
-
 
                 if (!isUsernameUnique(clientHandler.getUsername())) {
                     System.out.println("Username is not unique. Client disconnected.");
@@ -34,10 +33,28 @@ public class Server {
                 }
 
                 clients.add(clientHandler);
+                broadcastUserList();
                 new Thread(clientHandler).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public List<String> getUserList() {
+        List<String> userList = new ArrayList<>();
+        for (ClientHandler client : clients) {
+            if (client.getUsername() != null) {
+                userList.add(client.getUsername());
+            }
+        }
+        return userList;
+    }
+
+    public void broadcastUserList() {
+        List<String> userList = getUserList();
+        for (ClientHandler client : clients) {
+            client.sendUserList(userList);
         }
     }
 
@@ -61,6 +78,7 @@ public class Server {
 
     public void removeClient(ClientHandler clientHandler) {
         clients.remove(clientHandler);
+        broadcastUserList();
     }
 
     public void broadcastMessage(String message) {

@@ -23,6 +23,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
@@ -62,6 +63,12 @@ public class ClientHandler implements Runnable {
 
     public void sendMessage(String message) {
         out.println(message);
+    }
+
+    public void sendUserList(List<String> userList) {
+        if (userHasJoined) {
+            sendMessage("USERLIST " + String.join(",", userList));
+        }
     }
 
     private boolean isValidChatMessage(String chatMessage) {
