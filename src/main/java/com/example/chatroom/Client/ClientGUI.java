@@ -48,10 +48,12 @@ public class ClientGUI extends Application {
         Button setUsernameButton = new Button("Enter");
         usernamePane.add(setUsernameButton, 2, 0);
         
+        Button test = new Button("Hej");
 
         setUsernameButton.setOnAction(e -> setUsername());
 
         Scene usernameScene = new Scene(usernamePane, 350, 100);
+        Scene scene2 = new Scene(test, 200, 100);
         usernamePane.setStyle("-fx-background-color: #27b920; -fx-padding: 10;");
 
         primaryStage.getIcons().add(new Image("file:artochat.png"));
