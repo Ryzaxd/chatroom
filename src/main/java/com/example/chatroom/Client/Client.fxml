@@ -1,13 +1,9 @@
 <BorderPane fx:controller="your.package.name.ClientGUI" xmlns:fx="http://javafx.com/fxml">
 
-
-<!-- Assuming you have a TextArea for displaying messages -->
 <TextArea fx:id="messageTextArea" prefHeight="300.0" prefWidth="400.0" />
 
-<!-- Add an ImageView to display the uploaded image -->
 <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" />
 
-<!-- Add a Button to upload and send images -->
 <Button text="Send Image" onAction="#sendImage" />
 
 <BorderPane>

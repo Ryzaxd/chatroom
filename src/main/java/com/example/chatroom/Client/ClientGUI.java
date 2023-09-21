@@ -47,6 +47,7 @@ public class ClientGUI extends Application {
         usernamePane.add(usernameInput, 1, 0);
         Button setUsernameButton = new Button("Enter");
         usernamePane.add(setUsernameButton, 2, 0);
+        
 
         setUsernameButton.setOnAction(e -> setUsername());
 
@@ -80,11 +81,6 @@ public class ClientGUI extends Application {
 
             Scene chatScene = new Scene(chatContainer, 920, 620);
             primaryStage.setScene(chatScene);
-
-            Button button = new Button();
-            button.setText("Sample Button");
-            button.setTranslateX(150);
-            button.setTranslateY(60);
 
             messageInput.setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ENTER) {
