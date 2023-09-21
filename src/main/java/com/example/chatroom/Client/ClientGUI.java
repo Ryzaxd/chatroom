@@ -2,6 +2,7 @@ package com.example.chatroom.Client;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -80,6 +81,11 @@ public class ClientGUI extends Application {
             Scene chatScene = new Scene(chatContainer, 920, 620);
             primaryStage.setScene(chatScene);
 
+            Button button = new Button();
+            button.setText("Sample Button");
+            button.setTranslateX(150);
+            button.setTranslateY(60);
+
             messageInput.setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ENTER) {
                     sendMessageWithTimestamp();
@@ -134,7 +140,10 @@ public class ClientGUI extends Application {
         launch(args);
     }
 
-    
+
+
+
+    // test code //
     @FXML
     private TextArea messageTextArea;
 
@@ -154,6 +163,7 @@ public class ClientGUI extends Application {
             Image image = new Image(selectedFile.toURI().toString());
             imageView.setImage(image);
 
+            
 
         }
     }
