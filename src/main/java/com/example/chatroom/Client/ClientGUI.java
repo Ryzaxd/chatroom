@@ -106,6 +106,7 @@ public class ClientGUI extends Application {
                 }
             });
 
+
             try {
                 socket = new Socket("localhost", 8080);
                 out = new PrintWriter(socket.getOutputStream(), true);
