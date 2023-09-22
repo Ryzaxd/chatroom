@@ -30,6 +30,8 @@ public class ClientGUI extends Application {
     private boolean usernameEntered = false;
     private Socket socket;
     private ListView<String> userList = new ListView<>();
+    private Scene usernameScene;
+    private Scene chatScene;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -49,13 +51,15 @@ public class ClientGUI extends Application {
         Button setUsernameButton = new Button("Enter");
         usernamePane.add(setUsernameButton, 2, 0);
         
-        Button test = new Button("Hej");
 
         setUsernameButton.setOnAction(e -> setUsername());
 
+        StackPane Layout = new StackPane();
+        Layout.getChildren().add(new Label("ArtoChat"));
         Scene usernameScene = new Scene(usernamePane, 350, 100);
-        Scene scene2 = new Scene(test, 200, 100);
         usernamePane.setStyle("-fx-background-color: #27b920; -fx-padding: 10;");
+
+
 
         primaryStage.getIcons().add(new Image("file:artochat.png"));
         primaryStage.setScene(usernameScene);
@@ -96,6 +100,12 @@ public class ClientGUI extends Application {
                 }
             });
 
+            chatScene.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    primaryStage.setScene(usernameScene);
+                }
+            });
+
             try {
                 socket = new Socket("localhost", 8080);
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -118,6 +128,8 @@ public class ClientGUI extends Application {
             }
         }
     }
+
+
 
     private void sendMessageWithTimestamp() {
         if (usernameEntered) {
