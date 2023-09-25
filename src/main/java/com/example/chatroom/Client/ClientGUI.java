@@ -1,8 +1,8 @@
 package com.example.chatroom.Client;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -12,13 +12,14 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ClientGUI extends Application {
@@ -52,7 +53,7 @@ public class ClientGUI extends Application {
         usernamePane.add(setUsernameButton, 2, 0);
         
 
-        setUsernameButton.setOnAction(e -> setUsername());
+        setUsernameButton.setOnAction(e -> chatRoom());
 
         StackPane Layout = new StackPane();
         Layout.getChildren().add(new Label("ArtoChat"));
@@ -68,7 +69,7 @@ public class ClientGUI extends Application {
 
     }
 
-    private void setUsername() {
+    private void chatRoom() {
         String username = usernameInput.getText();
         if (!username.isEmpty()) {
             primaryStage.setTitle("ArtoChat - " + username);
@@ -90,6 +91,7 @@ public class ClientGUI extends Application {
             chatContainer.setStyle("-fx-background-color: #27b920; -fx-padding: 10;");
 
             userList.setStyle("-fx-background-color: white;");
+
 
             Scene chatScene = new Scene(chatContainer, 550, 400);
             primaryStage.setScene(chatScene);
@@ -117,7 +119,19 @@ public class ClientGUI extends Application {
                     try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                         String message;
                         while ((message = in.readLine()) != null) {
-                            chatArea.appendText(message + "\n");
+                            if (message.startsWith("USERLIST ")) {
+
+                                String userListStr = message.substring(9);
+                                List<String> users = new ArrayList<>();
+                                String[] userArray = userListStr.split(",");
+                                for (String user : userArray) {
+                                    users.add(user);
+                                }
+                                updateUserList(users);
+                            } else {
+
+                                chatArea.appendText(message + "\n");
+                            }
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -130,6 +144,12 @@ public class ClientGUI extends Application {
         }
     }
 
+    private void updateUserList(List<String> users) {
+        Platform.runLater(() -> {
+            userList.getItems().clear();
+            userList.getItems().addAll(users);
+        });
+    }
 
 
     private void sendMessageWithTimestamp() {
@@ -150,8 +170,6 @@ public class ClientGUI extends Application {
             socket.close();
         }
     }
-
-    
 
     public static void main(String[] args) {
         launch(args);

@@ -1,7 +1,6 @@
 package com.example.chatroom.Client;
 
 import com.example.chatroom.Server.Server;
-
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.ScatterChart;
@@ -12,9 +11,6 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.FileChooser;
 import javafx.scene.image.ImageView;
-
-
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
