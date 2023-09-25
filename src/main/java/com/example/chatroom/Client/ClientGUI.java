@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -102,6 +103,12 @@ public class ClientGUI extends Application {
                 }
             });
 
+            chatScene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    chatScene.setRoot(usernameScene.getRoot());
+                }
+            });
+
             chatScene.setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ESCAPE) {
                     primaryStage.setScene(usernameScene);
@@ -171,14 +178,6 @@ public class ClientGUI extends Application {
         }
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-
-
-
-    // test code //
     @FXML
     private TextArea messageTextArea;
 
@@ -189,7 +188,7 @@ public class ClientGUI extends Application {
     private void sendImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
         );
 
         File selectedFile = fileChooser.showOpenDialog(null);
@@ -198,10 +197,15 @@ public class ClientGUI extends Application {
             Image image = new Image(selectedFile.toURI().toString());
             imageView.setImage(image);
 
-            
+
 
         }
     }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
      
 
 }
