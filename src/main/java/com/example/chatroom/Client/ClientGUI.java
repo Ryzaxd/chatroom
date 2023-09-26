@@ -13,6 +13,8 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
+import javafx.stage.StageStyle;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +42,12 @@ public class ClientGUI extends Application {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("ArtoChat");
 
+        Stage utilityStage = new Stage(StageStyle.UTILITY);
+        utilityStage.initStyle(StageStyle.UTILITY);
+        primaryStage.getIcons().add(new javafx.scene.image.Image("https://github.com/Ryzaxd/chatroom/blob/00bda24be0dbf9e301de4cb917583acb7d20ae46/src/main/resources/com/example/chatroom/Pictures/artochat.png"));
+        utilityStage.setScene(usernameScene);
+        utilityStage.hide();
+
         GridPane usernamePane = new GridPane();
         usernamePane.setHgap(10);
         usernamePane.setVgap(10);
@@ -62,8 +70,7 @@ public class ClientGUI extends Application {
         usernamePane.setStyle("-fx-background-color: #27b920; -fx-padding: 10;");
 
 
-
-        primaryStage.getIcons().add(new Image("file:artochat.png"));
+        utilityStage.setIconified(true);
         primaryStage.setScene(usernameScene);
         primaryStage.show();
 

@@ -9,5 +9,5 @@ Chatrummet funktioner giver brugere mulighed for at vælge deres eget unikke nav
 ![chat2](src/main/resources/com/example/chatroom/Pictures/chatroom.png)
 
 
-![logo](src/main/resources/com/example/chatroom/Pictures/artochat.png)
+![logo](src/main/resources/com/example/chatroom/Pictures/artochat.jpg)
 © 2023 Casper Emil Hechmann, Nicklas Flor Galver & Justin Xander Chardonnay. All Rights Reserved.
