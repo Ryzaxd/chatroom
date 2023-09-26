@@ -39,7 +39,7 @@ public class ClientGUI extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("ArtoChat");
-        Image image = new Image("artochat.png");
+        Image image = new Image("file:artochat.png");
         primaryStage.getIcons().add(image);
 
         /* primaryStage.getIcons().add(new javafx.scene.image.Image("artochat.png")); */
