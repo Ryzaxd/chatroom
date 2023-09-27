@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -132,11 +133,8 @@ public class ClientGUI extends Application {
                             if (message.startsWith("USERLIST ")) {
 
                                 String userListStr = message.substring(9);
-                                List<String> users = new ArrayList<>();
                                 String[] userArray = userListStr.split(",");
-                                for (String user : userArray) {
-                                    users.add(user);
-                                }
+                                List<String> users = new ArrayList<>(Arrays.asList(userArray));
                                 updateUserList(users);
                             } else {
 
