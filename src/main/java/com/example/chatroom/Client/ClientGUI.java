@@ -131,13 +131,14 @@ public class ClientGUI extends Application {
                         String message;
                         while ((message = in.readLine()) != null) {
                             if (message.startsWith("USERLIST ")) {
-
                                 String userListStr = message.substring(9);
+                                List<String> users = new ArrayList<>();
                                 String[] userArray = userListStr.split(",");
-                                List<String> users = new ArrayList<>(Arrays.asList(userArray));
+                                for (String user : userArray) {
+                                    users.add(user);
+                                }
                                 updateUserList(users);
                             } else {
-
                                 chatArea.appendText(message + "\n");
                             }
                         }
