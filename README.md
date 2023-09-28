@@ -13,14 +13,17 @@ Chatrummet funktioner giver brugere mulighed for at vælge deres eget unikke nav
 5. Den broadcaster derudover også alle til- og fraslutninger af Clients samt alle beskeder der ville blive skrevet i chatrummet med en timestamp i Serverkonsolen. <br />
 <br />
 *Client* <br />
-   1. Clients GUI implementeres ved hjælp af JavaFX. Det starter med en startskærm til indtastning af username. <br />
-   2. Når Clients indtaster sit username og klikker på "Enter", etablerer den en forbindelse til Serveren. <br />
-   3. Clients kommunikerer med Serveren gennem en Socket og separaterer input- og outputstreams - meddelelser sendes til serveren og modtages fra
+1. Clients GUI implementeres ved hjælp af JavaFX. Det starter med en startskærm til indtastning af username. <br />
+2. Når Clients indtaster sit username og klikker på "Enter", etablerer den en forbindelse til Serveren. <br />
+3. Clients kommunikerer med Serveren gennem en Socket og separaterer input- og outputstreams - meddelelser sendes til serveren og modtages fra
       serveren. <br />
-   4. Clients kan sende chatbeskeder til Serveren, og Serveren udsender disse beskeder til alle tilsluttede Clients. <br />
-   5. CLients GUI viser chatbeskederne i et TextArea, og det giver Clients mulighed for at sende beskeder ved at skrive i et TextField <br />
+4. Clients kan sende chatbeskeder til Serveren, og Serveren udsender disse beskeder til alle tilsluttede Clients. <br />
+5. CLients GUI viser chatbeskederne i et TextArea, og det giver Clients mulighed for at sende beskeder ved at skrive i et TextField <br />
 <br />
-
+*ClientHandler* <br />
+1. Hver tilsluttet Clients administreres af en instance af ClientHandler-klassen. <br />
+2. ClientHandler-klassen håndterer kommunikationen med Clients, herunder parsing af beskeder, broadcasting og håndterer af usernames. <br />
+<br />
 
  ![start](https://github.com/Ryzaxd/chatroom/assets/110767229/b361aa92-be3c-4fdf-ac0a-76afcee0e01e)
 <br />
