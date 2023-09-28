@@ -24,6 +24,49 @@ Chatrummet funktioner giver brugere mulighed for at vælge deres eget unikke nav
 1. Hver tilsluttet Clients administreres af en instance af ClientHandler-klassen. <br />
 2. ClientHandler-klassen håndterer kommunikationen med Clients, herunder parsing af beskeder, broadcasting og håndterer af usernames. <br />
 <br />
+<br />
+*Protokolspecifikation* <br />
+<br />
+Client-to-Server beskeder: <br />
+<br />
+Tilslutter sig Chat: <br />
+<br />
+Format: /join username <br />
+Eksempel: /join Hans <br />
+Beskrivelse: Sendt af en Client når de gerne vil tilslutte sig chatrummet med et specifikt username. <br />
+<br />
+Sender en chatbesked: <br />
+<br />
+Format: message <br />
+Eksempel: Hello, everyone! <br />
+Beskrivelse: Sendt af en Client for at broadcaste en chatbesked til alle tilsluttede Clients. <br />
+<br />
+Server-to-Client Beskeder: <br />
+<br />
+Anerkendelse af succesfuld tilslutning: <br />
+<br />
+Format: SUCCESS <br />
+Eksempel: SUCCESS <br />
+Beskrivelse: Sendt af Serveren for at anerkende en vellykket Client tilslutning. <br />
+<br /> 
+Anerkendelse af mislykket tilslutning: <br />
+<br />
+Format: ERROR message <br />
+Eksempel: ERROR: Username is not unique. Please choose a different username. <br />
+Beskrivelse: Sendt af Serveren for at informere Client at deres tilslutning var mislykket. <br />
+<br />
+Broadcast Chatbeskeder: <br />
+<br />
+Format: timestamp username: message <br />
+Eksempel: [12:30:45] Hans: Hello, everyone! <br />
+Beskrivelse: Sendt af Serveren for at broadcaste chatbeskeder til tilsluttede Clients med et timestamp og afsenders username.<br />
+<br />
+Userlist Update: <br />
+<br />
+Format: USERLIST username1,username2,... <br />
+Eksempel: USERLIST Hans,Erik <br />
+Beskrivelse: Sendt af Serveren til at opdatere listen over tilsluttede Clients for alle Clients. <br />
+<br />
 
  ![start](https://github.com/Ryzaxd/chatroom/assets/110767229/b361aa92-be3c-4fdf-ac0a-76afcee0e01e)
 <br />
