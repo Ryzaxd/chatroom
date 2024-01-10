@@ -1,18 +1,12 @@
 package com.example.chatroom.Client;
 
 import com.example.chatroom.Server.Server;
-import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.ScatterChart;
-import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.stage.FileChooser;
-import javafx.scene.image.ImageView;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -144,29 +138,6 @@ public class ClientHandler implements Runnable {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         String timestamp = dateFormat.format(new Date());
         return "[" + timestamp + "] " + username + ": " + message;
-    }
-
-    @FXML
-    private TextArea messageTextArea;
-
-    @FXML
-    private ImageView imageView;
-
-    @FXML
-    private void sendImage() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
-        );
-
-        File selectedFile = fileChooser.showOpenDialog(null);
-
-        if (selectedFile != null) {
-            Image image = new Image(selectedFile.toURI().toString());
-            imageView.setImage(image);
-
-        }
-        
     }
 
 }
