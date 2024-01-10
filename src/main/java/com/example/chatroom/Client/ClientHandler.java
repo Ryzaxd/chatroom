@@ -127,13 +127,6 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public void copyChartToClipboard(ScatterChart<Double, Double> chart) {
-    WritableImage image = chart.snapshot(new SnapshotParameters(), null);
-    ClipboardContent cc = new ClipboardContent();
-    cc.putImage(image);
-    Clipboard.getSystemClipboard().setContent(cc);
-}
-
     public String getTimestampedMessage(String message) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         String timestamp = dateFormat.format(new Date());

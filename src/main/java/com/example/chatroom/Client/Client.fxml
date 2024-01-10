@@ -1,9 +1,0 @@
-<BorderPane fx:controller="your.package.name.ClientGUI" xmlns:fx="http://javafx.com/fxml">
-
-<TextArea fx:id="messageTextArea" prefHeight="300.0" prefWidth="400.0" />
-
-<ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" />
-
-<Button text="Send Image" onAction="#sendImage" />
-
-<BorderPane>
